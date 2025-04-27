@@ -1,10 +1,43 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
+Tech Stack what i use :
+- Tailwind and FlowBite For component (ex: select,textfield)
+- i'm using jsonwebtoken
+- react-icons for icon in this project
+
+this project include :
+##login page
+- function in api/login/route.ts
+- set token to cookies
+- wrong username && password function
+- push to dashboard if login succesfull 
+
+##dashboard page
+- fetch api user
+- dynamic routes like user detail (ex:user/[id]) 
+- fecth post by id user in user detail
+- props user detail when row table click
+- editable user is not working yet 🙏
+- creating  component table for reusable component
+- searching name, etc in table user is working
+- pagination and row per paging is working
+- sidebar component is working
+
+##post page
+- fetch api post
+- showing data post with reusable component
+
+##additional chalenge
+- i try to add dark theme in this project
+
+##security middlewarr
+- the middleware isn't not working yet 🙏. 
+
 
 First, run the development server:
 
-```bash
+npm i
 npm run dev
 # or
 yarn dev
