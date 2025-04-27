@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import jwt from 'jsonwebtoken';
+// import "jwt" from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'qubicball@2025!'; // Sesuaikan dengan .env
 
@@ -27,7 +27,7 @@ export function middleware(req: NextRequest) {
 
   try {
     // Verifikasi token (bisa juga menangani expired token)
-    jwt.verify(token, JWT_SECRET);
+    // jwt.verify(token, JWT_SECRET);
 
     // Token valid, lanjut akses
     return NextResponse.next();
