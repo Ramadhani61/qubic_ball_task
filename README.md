@@ -3,7 +3,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Getting Started
 Tech Stack what i use :
 - Tailwind and FlowBite For component (ex: select,textfield)
-- i'm using jsonwebtoken
+- i'm using jose for token login
 - react-icons for icon in this project
 
 this project include :
