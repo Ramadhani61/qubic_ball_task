@@ -1,23 +1,22 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-// import "jwt" from 'jsonwebtoken';
+import { jwtVerify } from 'jose'; // Ganti import jwt dari jose
 
 const JWT_SECRET = process.env.JWT_SECRET || 'qubicball@2025!'; // Sesuaikan dengan .env
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  console.log(req,"Res");
-  
-  
+
+  console.log(req, "Res");
+
   // Bypass middleware untuk halaman login atau API login
-  if (pathname.startsWith('/') || pathname.startsWith('/api/login')) {
+  if (pathname === '/' || pathname.startsWith('/api/login')) {
     return NextResponse.next();
   }
 
   // Ambil token dari cookies
   const token = req.cookies.get('token')?.value;
-  console.log(token,"token");
-  
+  console.log(token, "token");
 
   if (!token) {
     // Kalau tidak ada token, redirect ke login
@@ -26,8 +25,9 @@ export function middleware(req: NextRequest) {
   }
 
   try {
-    // Verifikasi token (bisa juga menangani expired token)
-    // jwt.verify(token, JWT_SECRET);
+    // Verifikasi token menggunakan jose
+    const secret = new TextEncoder().encode(JWT_SECRET);
+    await jwtVerify(token, secret);
 
     // Token valid, lanjut akses
     return NextResponse.next();
