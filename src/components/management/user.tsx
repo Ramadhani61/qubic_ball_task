@@ -17,7 +17,7 @@ export default function User() {
   const { darkMode } = useTheme();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [columns, setColumns] = useState<{ key: string; header: string }[]>([]);
+  const [columns, setColumns] = useState<{ key: keyof User; header: string }[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);

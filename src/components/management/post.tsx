@@ -4,20 +4,17 @@ import Table from "@/components/table/tableRegular";
 import { IoIosSearch, IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useTheme } from "@/context/ThemeContext";
 
-type User = {
-  name: string;
-  username: string;
-  email: string;
-  address: object;
-  phone: string;
-  website: string;
-  company: object;
+type Post = {
+  userId: number;
+  id: string;
+  title: string;
+  body: string;
 };
 
-export default function User() {
-  const [post, setPost] = useState<User[]>([]);
+export default function Post() {
+  const [post, setPost] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [columns, setColumns] = useState<{ key: string; header: string }[]>([]);
+  const [columns, setColumns] = useState<{ key: keyof Post; header: string }[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -29,7 +26,7 @@ export default function User() {
         const data = await res.json();
         setPost(data);
         if (data.length) {
-          const dynamicColumns = (Object.keys(data[0]) as (keyof User)[]).map(
+          const dynamicColumns = (Object.keys(data[0]) as (keyof Post)[]).map(
             (key) => ({
               key,
               header: key.charAt(0).toUpperCase() + key.slice(1),
@@ -45,14 +42,14 @@ export default function User() {
     };
     fetchPost();
   }, []);
-  const filteredUsers = post.filter((user) =>
-    Object.values(user).some((value) =>
+  const filteredPosts = post.filter((array) =>
+    Object.values(array).some((value) =>
       String(value).toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const paginatedUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+  const paginatedPost = filteredPosts.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -80,11 +77,7 @@ export default function User() {
             </form>
           </div>
         </div>
-        <Table<User>
-          data={paginatedUsers}
-          columns={columns}
-          loading={loading}
-        />
+        <Table<Post> data={paginatedPost} columns={columns} loading={loading} />
         <div className="grid grid-cols-12">
           <div className="col-span-12 flex flex-col md:flex-row justify-end items-center gap-5 p-5">
             <div>
@@ -122,18 +115,18 @@ export default function User() {
                 } text-sm md:text-md mx-3`}
               >
                 Page {currentPage} of{" "}
-                {Math.ceil(filteredUsers.length / itemsPerPage)}
+                {Math.ceil(filteredPosts.length / itemsPerPage)}
               </span>
               <button
                 onClick={() =>
                   setCurrentPage((prev) =>
-                    prev < Math.ceil(filteredUsers.length / itemsPerPage)
+                    prev < Math.ceil(filteredPosts.length / itemsPerPage)
                       ? prev + 1
                       : prev
                   )
                 }
                 disabled={
-                  currentPage === Math.ceil(filteredUsers.length / itemsPerPage)
+                  currentPage === Math.ceil(filteredPosts.length / itemsPerPage)
                 }
                 className={`${
                   darkMode ? "bg-gray-900 border" : "bg-blue-500 text-white"

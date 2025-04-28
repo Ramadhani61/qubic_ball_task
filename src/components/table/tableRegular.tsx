@@ -85,7 +85,7 @@ export default function Table<T>({
             >
               <tr>
                 {columns.map((column) => (
-                  <th key={column.key} className="px-6 py-3">
+                  <th key={column.key as any} className="px-6 py-3">
                     {column.header}
                   </th>
                 ))}
@@ -107,21 +107,23 @@ export default function Table<T>({
                             "user-detail",
                             JSON.stringify(row)
                           );
-                          router.push(`/user/${row.id}`);
+                          router.push(`/user/${(row as any).id}`);
                         }
                       : undefined
                   }
                 >
                   {columns.map((column) => (
                     <td
-                      key={column.key}
+                      key={column.key as any}
                       className="p-2 border-b border-gray-200 align-top"
                     >
                       {column.key === "address"
-                        ? renderAddress(row.address)
+                        ? renderAddress((row as any).address)
                         : column.key === "company"
-                        ? renderCompany(row.company)
-                        : (row[column.key] as string)}
+                        ? renderCompany((row as any).company)
+                        : typeof row[column.key] === "object"
+                        ? JSON.stringify(row[column.key])
+                        : String(row[column.key] ?? "-")}
                     </td>
                   ))}
                 </tr>
